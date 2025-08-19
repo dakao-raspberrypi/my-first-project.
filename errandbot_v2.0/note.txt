@@ -1,0 +1,6 @@
+ErrandBot v1.1
+reference: TurtleBot3
+issues: simulate OK
+	plan OK
+	control OK
+	robot TurtleBot3 Waffle

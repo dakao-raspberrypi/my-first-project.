@@ -1,0 +1,247 @@
+# ERRANDBOT DOCUMENTATION
+
+****************************************************************************************************
+# SOFTWARE INSTALLATION
+
+sudo apt install gedit terminator neofetch htop
+sudo snap install code --classic
+sudo snap install chromium
+
+****************************************************************************************************
+# LINK
+
+https://wiki.ros.org/
+https://github.com/ros2
+https://index.ros.org/
+https://docs.ros.org/en/jazzy/index.html
+https://docs.ros.org/en/jazzy/Releases/Release-Jazzy-Jalisco.html
+https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html
+
+https://index.ros.org/r/gazebo_ros_pkgs/#jazzy
+https://gazebosim.org/docs/latest/getstarted/
+https://github.com/gazebosim
+
+https://index.ros.org/r/cartographer_ros/
+https://google-cartographer-ros.readthedocs.io/en/latest/#
+https://github.com/cartographer-project
+
+https://index.ros.org/r/navigation2/#jazzy
+https://docs.nav2.org/index.html
+https://github.com/ros-navigation
+
+https://control.ros.org/jazzy/index.html
+https://github.com/ros-controls
+
+https://github.com/ros-drivers
+https://github.com/ros-teleop
+https://github.com/open-navigation
+
+https://docs.ros.org/en/melodic/api/robot_localization/html/index.html
+https://docs.nav2.org/configuration/packages/configuring-amcl.html
+https://docs.nav2.org/configuration/packages/configuring-controller-server.html
+https://docs.nav2.org/configuration/packages/configuring-planner-server.html
+
+https://github.com/ROBOTIS-GIT
+https://github.com/Slamtec
+https://github.com/AntoBrandi
+https://github.com/PacktPublishing/ROS-2-from-Scratch
+https://github.com/SteveMacenski
+https://en.wikipedia.org/wiki/List_of_moments_of_inertia
+https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping
+
+****************************************************************************************************
+# ROS 2 JAZZY INSTALLATION
+
+locale  # check for UTF-8
+
+sudo apt update && sudo apt install locales
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+locale  # verify settings
+
+sudo apt install software-properties-common
+sudo add-apt-repository universe
+
+sudo apt update && sudo apt install curl -y
+export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')
+curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo $VERSION_CODENAME)_all.deb" # If using Ubuntu derivates use $UBUNTU_CODENAME
+sudo dpkg -i /tmp/ros2-apt-source.deb
+
+sudo apt update && sudo apt install ros-dev-tools
+
+sudo apt update
+sudo apt upgrade
+
+sudo apt install ros-jazzy-desktop
+
+sudo apt install ros-jazzy-rmw-cyclonedds-cpp
+
+sudo apt install ros-jazzy-ros2-control ros-jazzy-ros2-controllers
+
+sudo apt install ros-jazzy-navigation2
+
+sudo apt install ros-jazzy-nav2-bringup
+
+****************************************************************************************************
+# GAZEBO INSTALLATION
+
+sudo apt install ros-jazzy-ros-gz ros-jazzy-tf2-tools ros-jazzy-xacro ros-jazzy-joint-state-publisher-gui ros-jazzy-urdf-tutorial
+
+****************************************************************************************************
+# CREATE REFERENCE FOLDER
+
+cd ~/
+mkdir reference
+
+cd ~/reference/
+git clone https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+cd turtlebot3_simulations/
+git checkout jazzy
+git branch
+
+cd ~/reference/
+git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
+cd turtlebot3
+git checkout jazzy
+git branch
+
+cd ~/reference/
+git clone https://github.com/Slamtec/rplidar_ros.git
+cd rplidar_ros/
+git checkout ros2
+git branch
+
+cd ~/reference/
+git clone https://github.com/ros-controls/ros2_control.git
+cd ros2_control/
+git checkout jazzy
+git branch
+
+cd ~/reference/
+git clone https://github.com/ros-controls/ros2_controllers.git
+cd ros2_controllers/
+git checkout jazzy
+git branch
+
+cd ~/reference/
+git clone https://github.com/ros-navigation/navigation2.git
+cd navigation2/
+git checkout jazzy
+git branch
+
+cd ~/reference/
+git clone https://github.com/SteveMacenski/slam_toolbox.git
+cd slam_toolbox/
+git checkout jazzy
+git branch
+
+cd ~/reference/
+git clone https://github.com/gazebosim/ros_gz.git
+cd ros_gz/
+git checkout jazzy
+git branch
+
+cd ~/reference/
+git clone https://github.com/ros2/teleop_twist_joy.git
+git clone https://github.com/ros-drivers/joystick_drivers.git
+git clone https://github.com/ros-teleop/twist_mux.git
+git clone https://github.com/open-navigation/opennav_docking.git
+git clone https://github.com/AntoBrandi/Bumper-Bot.git
+git clone https://github.com/PacktPublishing/ROS-2-from-Scratch.git
+
+****************************************************************************************************
+# CREATE WORKSPACE FOLDER
+
+cd ~/
+mkdir -p errandbot_ws/src
+cd errandbot_ws/src/
+git clone -b ros2 https://github.com/Slamtec/rplidar_ros.git
+ros2 pkg create errandbot_bringup --build-type ament_cmake
+ros2 pkg create errandbot_controller --build-type ament_cmake
+ros2 pkg create errandbot_description --build-type ament_cmake
+ros2 pkg create errandbot_firmware --build-type ament_cmake
+ros2 pkg create errandbot_localization --build-type ament_cmake
+ros2 pkg create errandbot_mapping --build-type ament_cmake
+ros2 pkg create errandbot_navigation --build-type ament_cmake
+ros2 pkg create errandbot_planning --build-type ament_cmake
+cd ..
+colcon build
+
+
+****************************************************************************************************
+# SOURCE CODE
+
+cd~/
+gedit .bashrc
+
+export TURTLEBOT3_MODEL=waffle
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+source /opt/ros/jazzy/setup.bash
+source ~/errandbot_ws/install/setup.bash
+
+****************************************************************************************************
+# HOW TO CREATE A ROS 2 WORKSPACE
+
+# Create the workspace directory
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
+
+# Source ROS 2 environment
+echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+# Build the (empty) workspace
+colcon build
+
+# Source your workspace environment
+echo "source ~/ros2_ws/install/setup.bash" >> ~/.bashrc
+source ~/ros2_ws/install/setup.bash
+
+# Verify the workspace
+colcon list
+
+****************************************************************************************************
+# COMMAND-LINE
+
+cd ~/errandbot_ws/
+rosdep install --from-paths src --ignore-src -i -y
+colcon build
+. install/setup.bash
+
+# SIMULATION
+cd ~/errandbot_ws/
+colcon build
+. install/setup.bash
+ros2 launch errandbot_description gazebo.launch.py
+
+# NAVIGATION
+cd ~/errandbot_ws/
+. install/setup.bash
+ros2 launch errandbot_navigation navigation.launch.py
+
+cd ~/errandbot_ws/
+colcon build
+. install/setup.bash
+ros2 launch errandbot_bringup simulated_robot.launch.py
+ros2 launch errandbot_bringup real_robot.launch.py
+
+
+# SLAM
+ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=True
+ros2 run turtlebot3_teleop teleop_keyboard
+ros2 run nav2_map_server map_saver_cli -f maps/my_map
+
+# Navigation
+ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=maps/my_map.yaml
+
+
+
+
+
+
+
+
