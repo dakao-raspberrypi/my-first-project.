@@ -1,0 +1,6 @@
+ErrandBot v1.0
+reference: BumperBot (Atonio Brandi)
+issues: simulate OK
+	plan OK
+	control FAIL
+	robot BumperBot

@@ -1,0 +1,10 @@
+<library path="errandbot_firmware">
+    <class name="errandbot_firmware/ErrandbotInterface"
+      type="errandbot_firmware::ErrandbotInterface"
+      base_class_type="hardware_interface::SystemInterface"
+    >
+      <description>
+        Errandbot Hardware Interface
+      </description>
+    </class>
+  </library>
