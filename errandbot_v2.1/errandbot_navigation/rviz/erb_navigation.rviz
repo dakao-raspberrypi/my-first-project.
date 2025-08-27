@@ -101,6 +101,10 @@ Visualization Manager:
           Value: true
         caster_back_right_link:
           Value: true
+        caster_front_left_link:
+          Value: true
+        caster_front_right_link:
+          Value: true
         imu_link:
           Value: true
         odom:
