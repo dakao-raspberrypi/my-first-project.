@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find-pkg-share prestobot_simulation)/launch/gazebo.launch.xml" />
+    <include file="$(find-pkg-share prestobot_navigation)/launch/navigation.launch.xml" />
+    <node pkg="prestobot_py_pkg" exec="hmi" output="screen" />
+</launch>
