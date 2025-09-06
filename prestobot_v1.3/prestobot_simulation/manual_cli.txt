@@ -1,0 +1,9 @@
+sudo apt install ros-jazzy-ros-gz
+
+sudo apt install ros-jazzy-gz-ros2-control
+
+ros2 launch prestobot_simulation gazebo.launch.xml
+
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/diff_drive_controller/cmd_vel -p stamped:=true
+
+ros2 topic pub -1 /arm_joints_controller/commands std_msgs/msg/Float64MultiArray "{data: [0.4, 1.4]}"
